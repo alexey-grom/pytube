@@ -2,11 +2,11 @@
 """This module contains all non-cipher related data extraction logic."""
 import json
 from collections import OrderedDict
+from urllib.parse import quote
+from urllib.parse import urlencode
 
-from pytube.compat import quote
-from pytube.compat import urlencode
 from pytube.exceptions import RegexMatchError
-from pytube.helpers import regex_search
+from pytube.parser.helpers import regex_search
 
 
 def is_age_restricted(watch_html):
@@ -134,7 +134,7 @@ def get_ytplayer_config(watch_html):
 
     :param str watch_html:
         The html contents of the watch page.
-    :rtype: str
+    :rtype: dict
     :returns:
         Substring of the html containing the encoded manifest data.
     """

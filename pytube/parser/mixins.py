@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 """Applies in-place data mutations."""
-from __future__ import absolute_import
-
 import logging
 import pprint
+from urllib.parse import parse_qsl
+from urllib.parse import unquote
 
-from pytube import cipher
-from pytube.compat import parse_qsl
-from pytube.compat import unquote
+from pytube.parser import cipher
 
 
 logger = logging.getLogger(__name__)

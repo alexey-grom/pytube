@@ -38,3 +38,18 @@ class RegexMatchError(ExtractError):
 
 class AgeRestrictionError(ExtractError):
     """Content is age restricted."""
+
+
+class DownloadingError(PytubeError):
+    def __init__(self, status_code, url, content_type=None):
+        self.status_code = status_code
+        self.url = url
+        self.content_type = content_type
+
+        msg = 'Error occurred while downloading {}: ' \
+              'status_code={}, url={}'.format(
+                  content_type or 'unknown',
+                  status_code, url,
+              )
+
+        super(DownloadingError, self).__init__(msg)
