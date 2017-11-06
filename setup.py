@@ -25,6 +25,10 @@ setup(
             'pytube = pytube.cli:main',
         ],
     },
+    install_requires=[
+        'docopt',
+        'aiohttp',
+    ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
