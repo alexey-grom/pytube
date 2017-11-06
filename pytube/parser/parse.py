@@ -100,7 +100,7 @@ async def player_formats_parser(get_content, js_url, vid_info_url,
         # build instances of :class:`Stream <Stream>`
         stream_manifest = config_args[fmt]
         for stream in stream_manifest:
-            video = streams.CleanStream(raw=stream)
+            video = streams.Stream(raw=stream)
             fmt_streams.append(video)
 
     # load the player_response object (contains subtitle information)

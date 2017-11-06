@@ -8,6 +8,10 @@ except ImportError:
     cache_exists = False
 
 
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' \
+     '(KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'
+
+
 def get_content_factory(client, successful_statuses=(200, ), middlewares=None):
     async def get_content(**kwargs):
         async with client.request(**kwargs) as response:
@@ -28,6 +32,12 @@ def request_defaults_middleware(**defaults):
             return await get_content(**kwargs)
         return wrapper
     return outer
+
+
+def user_agent_middleware(user_agent=None):
+    return request_defaults_middleware(headers={
+        'User-Agent': user_agent or UA
+    })
 
 
 def request_proxy_middleware(proxy=None, proxy_auth=None):

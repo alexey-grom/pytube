@@ -27,7 +27,7 @@ class RawProperty:
         instance.overrides[self.name] = value
 
 
-class CleanStream:
+class Stream:
     def __init__(self, raw):
         self._raw = raw
         self._overrides = {}

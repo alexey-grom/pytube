@@ -22,6 +22,7 @@ class player_config:
             cache_ttl = int(cache_ttl)
 
         self.middlewares = (
+            requests.user_agent_middleware(),
             requests.request_defaults_middleware(proxy=proxy,
                                                  proxy_auth=proxy_auth),
             requests.cached_request_middleware(cache_ttl=cache_ttl,
