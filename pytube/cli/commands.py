@@ -3,9 +3,11 @@ from subprocess import call
 
 from pytube.cli.decorators import command
 from pytube.cli.decorators import redirect_output
-from pytube.player_config import player_config
+from pytube.parser.player_config import player_config
+from pytube.server import run_server
 from pytube.utils import choose_stream
 from pytube.utils import format_filename
+from pytube.utils import import_name
 from pytube.utils import print_streams
 from pytube.utils import safe_filename
 
@@ -108,14 +110,27 @@ async def download(arguments, **kwargs):
 
 
 @command
-async def server(arguments, **kwargs):
+def server(arguments, **kwargs):
     """
     Usage:
-      pytube [options] server [--host=<host>] [--port=<port>]
+      pytube [options] server
+             [--host=<host>] [--port=<port>]
+             [--setup-routes=<import-path>...]
 
     Options:
-      --host=<host>         [default:0.0.0.0]
-      --port=<port>         [default:8080]
+      --host=<host>                  [default: 0.0.0.0]
+      --port=<port>                  [default: 8080]
+      --setup-routes=<import-path>   [default: pytube.server.routes.install]
 
     """
-    raise NotImplementedError
+
+    host = arguments.pop('--host')
+    port = int(arguments.pop('--port'))
+
+    def _setup_routes(app):
+        for path in arguments.pop('--setup-routes'):
+            setup_routes = import_name(path)
+            assert callable(setup_routes)
+            setup_routes(app)
+
+    run_server(_setup_routes, host=host, port=port, **kwargs)

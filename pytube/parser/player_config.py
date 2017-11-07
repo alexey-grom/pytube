@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import aiohttp
 
-from . import parser
-from . import requests
+from pytube import parser
+from pytube import requests
 
 
 NULL = object()

@@ -12,7 +12,6 @@ Usage:
 Options:
   -h --help
   -v|-vv|-vvv
-  --output=<filename>
   --proxy=<proxy>
   --proxy-auth=<username:password>
   --cache-backend=<backend>
@@ -54,8 +53,12 @@ def run_command(command, *args, **opts):
     argv = (command.name, ) + args
     arguments = docopt(command.__doc__, argv=argv)
 
+    result = command(arguments, **opts)
+    if not asyncio.iscoroutine(result):
+        return
+
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(command(arguments, **opts))
+    loop.run_until_complete(result)
 
 
 def collect_opts(arguments):
@@ -67,7 +70,6 @@ def collect_opts(arguments):
         cache_password=arguments.get('--cache-password'),
         proxy=arguments.get('--proxy'),
         proxy_auth=arguments.get('--proxy-auth'),
-        output=arguments.pop('--output', None),
     )
 
 

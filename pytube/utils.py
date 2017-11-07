@@ -4,6 +4,7 @@ import re
 from collections import defaultdict
 from collections import OrderedDict
 from datetime import datetime
+from importlib import import_module
 
 
 DEFAULT_FORMAT = 'pytube-%y%m%d-%H%M%S-{config[args][title]}.{stream.format}'
@@ -15,6 +16,15 @@ FS_CHRS = [
     # '\,', '\.',
 ]
 FS_FILTER_PATTERN = re.compile('|'.join(FS_NTFS_CHRS + FS_CHRS), re.UNICODE)
+
+
+def import_name(name):
+    package, attr = name.rsplit('.', 1)
+    module = import_module(package)
+    try:
+        return getattr(module, attr)
+    except AttributeError:
+        raise ImportError(name)
 
 
 def cmp_predicate(key, pattern):

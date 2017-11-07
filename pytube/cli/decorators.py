@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
 from functools import wraps
-try:
-    from ujson import dump
-except ImportError:
-    from json import dump
+
+from pytube.json import dump
 
 
 def redirect_output(func):

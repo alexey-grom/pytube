@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import functools
+from functools import lru_cache
 
 from aiocache import cached as _cached
 from aiocache import caches
@@ -14,6 +15,7 @@ CACHE_BACKEND_BY_ALIAS = {
 }
 
 
+@lru_cache(None)
 def create_cache(cache_backend=None, cache_endpoint=None, cache_port=None,
                  cache_db=None, cache_password=None):
     opts = {
