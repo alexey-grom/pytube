@@ -3,11 +3,12 @@ import json as _json
 from functools import partial
 from json import JSONEncoder
 
-from pytube.parser.streams import Stream
 # try:
 #     import ujson as _json
 # except ImportError:
 #     import json as _json
+
+from pytube.youtube.video.streams import Stream
 
 
 class _Encoder(JSONEncoder):
@@ -19,6 +20,7 @@ class _Encoder(JSONEncoder):
 
 dump = partial(_json.dump, cls=_Encoder)
 dumps = partial(_json.dumps, cls=_Encoder)
+loads = _json.loads
 
 
 # dump = _json.dump

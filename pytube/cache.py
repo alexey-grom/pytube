@@ -17,12 +17,12 @@ CACHE_BACKEND_BY_ALIAS = {
 
 @lru_cache(None)
 def create_cache(cache_backend=None, cache_endpoint=None, cache_port=None,
-                 cache_db=None, cache_password=None):
+                 cache_database=None, cache_password=None):
     opts = {
         'cache': CACHE_BACKEND_BY_ALIAS[cache_backend or 'dummy'],
         'endpoint': cache_endpoint,
         'port': cache_port,
-        'db': cache_db,
+        'db': cache_database,
         'password': cache_password,
     }
     opts = {
