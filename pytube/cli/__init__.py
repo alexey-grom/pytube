@@ -21,11 +21,7 @@ Options:
   --cache-password=<password>
 
 Commands:
-  list
-  download
-  dump-player-config
-  dump-streams
-  server
+{}
 
 """
 import asyncio
@@ -36,22 +32,16 @@ from logging import WARNING
 
 from docopt import docopt
 
-from . import commands
+from . import commands  # noqa
+from .decorators import commands_register
 
 
-def get_command_by_name(name):
-    clean = name.replace('-', '_')
-    names = [clean, '{}_command'.format(clean)]
-    for clean in names:
-        command = getattr(commands, clean, None)
-        if command and getattr(command, 'is_command', None):
-            command.name = name
-            return command
-
-
-def run_command(command, *args, **opts):
-    argv = (command.name, ) + args
-    arguments = docopt(command.__doc__, argv=argv)
+def run_command(command_name, command, *args, **opts):
+    argv = (command_name, ) + args
+    arguments = docopt(
+        command.__doc__.format(command=command_name),
+        argv=argv,
+    )
 
     result = command(arguments, **opts)
     if not asyncio.iscoroutine(result):
@@ -74,10 +64,12 @@ def collect_opts(arguments):
 
 
 def main():
-    arguments = docopt(__doc__, options_first=True)
+    commands_list = '\n'.join(commands_register.keys())
+    arguments = docopt(__doc__.format(commands_list), options_first=True)
 
-    command = get_command_by_name(arguments.pop('<command>'))
-    assert command, 'Unknown command'
+    command_name = arguments.pop('<command>')
+    assert command_name in commands_register, 'Unknown command'
+    command = commands_register[command_name]
 
     verbosity = arguments.get('-v')
     if verbosity:
@@ -90,7 +82,7 @@ def main():
 
     args = arguments.pop('<args>')
     opts = collect_opts(arguments)
-    run_command(command, *args, **opts)
+    run_command(command_name, command, *args, **opts)
 
 
 if __name__ == '__main__':
