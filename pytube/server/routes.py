@@ -8,3 +8,4 @@ def install(app):
     app.router.add_route('*', '/video/', views.VideoView)
     app.router.add_route('*', '/search-keywords/', views.SearchKeywordsView)
     app.router.add_route('*', '/search/', views.SearchView)
+    app.router.add_route('*', '/feed/', views.FeedView)

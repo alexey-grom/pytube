@@ -2,6 +2,7 @@
 from . import download  # noqa
 from . import dump_player_config  # noqa
 from . import dump_streams  # noqa
+from . import feed  # noqa
 from . import list  # noqa
 from . import search  # noqa
 from . import search_keywords  # noqa
