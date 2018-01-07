@@ -14,4 +14,5 @@ class flag:
 
 DEBUG = flag('debug')
 STRICT = flag('strict')
-SKIP_EMPTY = flag('skip empty')
+# SKIP_EMPTY = flag('skip empty')
+KEEP_EMPTY = flag('keep empty')

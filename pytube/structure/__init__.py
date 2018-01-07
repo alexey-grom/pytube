@@ -4,7 +4,7 @@ from logging import getLogger
 from . import filters  # noqa
 from . import native
 from .flags import DEBUG
-from .flags import SKIP_EMPTY
+from .flags import KEEP_EMPTY
 from .flags import STRICT
 from .utils import split_args
 
@@ -91,7 +91,7 @@ class Schema(object):
     def apply(self, data, flags=()):
         flags = set(flags) | set(self.flags)
 
-        if not data and SKIP_EMPTY in flags:
+        if not data and KEEP_EMPTY not in flags:
             return data
 
         if isinstance(data, (list, tuple)):

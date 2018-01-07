@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from .filters import extract_canonical_url
 from pytube.structure import filters
-from pytube.structure import flags
 from pytube.structure import Schema as x
 
 
 video_schema = x(
-    flags.SKIP_EMPTY,
     ('videoRenderer', ),
     id='videoId',
     thumbnails=('thumbnail', 'thumbnails', ),
@@ -30,7 +28,6 @@ video_schema = x(
 )
 
 channel_schema = x(
-    flags.SKIP_EMPTY,
     ('channelRenderer', ),
     id='channelId',
     canonical=x(
@@ -54,7 +51,6 @@ channel_schema = x(
 )
 
 playlist_schema = x(
-    flags.SKIP_EMPTY,
     ('playlistRenderer', ),
     id='playlistId',
     title=('title', 'simpleText', ),

@@ -146,6 +146,7 @@ testcases = [
     [
         testdata,
         x(
+            flags.KEEP_EMPTY,
             ('named', 'items'),
             item=x(
                 'nested',
@@ -160,7 +161,6 @@ testcases = [
     [
         testdata,
         x(
-            flags.SKIP_EMPTY,
             ('named', 'items'),
             item=x(
                 'nested',
@@ -193,7 +193,6 @@ testcases = [
     [
         testdata,
         x(
-            flags.SKIP_EMPTY,
             ('named', 'items'),
             x(
                 filters.drop_null_values,
