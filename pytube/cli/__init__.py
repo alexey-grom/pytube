@@ -5,6 +5,7 @@ Usage:
          [--cache-backend=<backend>] [--cache-endpoint=<endpoint>]
          [--cache-port=<port>] [--cache-database=<database>]
          [--cache-password=<password>]
+         [--cache-ttl=<ttl>]
          [-v|-vv|-vvv]
          <command> [<args>...]
   pytube -h
@@ -52,7 +53,7 @@ def run_command(command_name, command, *args, **opts):
 
 
 def collect_opts(arguments):
-    return dict(
+    opts = dict(
         cache_backend=arguments.get('--cache-backend'),
         cache_endpoint=arguments.get('--cache-endpoint'),
         cache_port=arguments.get('--cache-port'),
@@ -61,6 +62,10 @@ def collect_opts(arguments):
         proxy=arguments.get('--proxy'),
         proxy_auth=arguments.get('--proxy-auth'),
     )
+    ttl = arguments.get('--cache-ttl')
+    if ttl is not None:
+        opts['cache_ttl'] = ttl
+    return opts
 
 
 def main():

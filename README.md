@@ -7,6 +7,7 @@ Usage:
          [--cache-backend=<backend>] [--cache-endpoint=<endpoint>]
          [--cache-port=<port>] [--cache-database=<database>]
          [--cache-password=<password>]
+         [--cache-ttl=<ttl>]
          [-v|-vv|-vvv]
          <command> [<args>...]
   pytube -h
