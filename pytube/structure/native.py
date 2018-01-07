@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*-
+from .utils import is_empty
+from .utils import not_empty
 
 
 NULL = object()
 
 
 def _is_array(value):
-    return value and isinstance(value, (list, tuple))
+    return not_empty(value) and isinstance(value, (list, tuple))
 
 
 def _is_dict(value):
-    return value and isinstance(value, dict)
+    return not_empty(value) and isinstance(value, dict)
 
 
 def _has(value, key):
-    if not value:
+    if is_empty(value):
         return
     if _is_dict(value):
         return key in value
@@ -23,7 +25,7 @@ def _has(value, key):
 
 
 def _is_collection(value):
-    return value and (_is_dict(value) or _is_array(value))
+    return not_empty(value) and (_is_dict(value) or _is_array(value))
 
 
 def _is_prime(value):

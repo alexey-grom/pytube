@@ -26,6 +26,10 @@ def type_cast(target, strict=False):
     return inner
 
 
+int_cast = type_cast(int)
+float_cast = type_cast(float)
+
+
 def drop_null_values(item, *args):
     if not isinstance(item, dict):
         return item

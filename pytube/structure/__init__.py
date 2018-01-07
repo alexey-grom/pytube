@@ -5,7 +5,9 @@ from . import filters  # noqa
 from . import native
 from .flags import DEBUG
 from .flags import KEEP_EMPTY
+from .flags import MULTIPLE
 from .flags import STRICT
+from .utils import is_empty
 from .utils import split_args
 
 
@@ -32,7 +34,7 @@ class Item(object):
         return native.walk(data, *path, default=self.null_value)
 
     def _check_strict(self, value, is_strict):
-        if not value:
+        if is_empty(value):
             return value
         if isinstance(value, (list, tuple)):
             return [
@@ -59,10 +61,6 @@ class Item(object):
                 return path
         raise RuntimeError('Bad path: {}'.format(path))
 
-    def __str__(self):
-        return 'Item<{}>'.format(str(self.path))
-    __repr__ = __str__
-
 
 class Schema(object):
     __slots__ = \
@@ -73,6 +71,7 @@ class Schema(object):
         'named',
 
     item_class = Item
+    non_inherited_flags = {DEBUG, MULTIPLE}
 
     def __init__(self, *nested, **named):
         self.flags, self.filters, self.path, self.nested = \
@@ -91,7 +90,7 @@ class Schema(object):
     def apply(self, data, flags=()):
         flags = set(flags) | set(self.flags)
 
-        if not data and KEEP_EMPTY not in flags:
+        if is_empty(data) and KEEP_EMPTY not in flags:
             return data
 
         if isinstance(data, (list, tuple)):
@@ -114,7 +113,7 @@ class Schema(object):
     def _apply_as_array(self, data, flags):
         result = []
         for item in self.nested:
-            result.append(item(data, flags - {DEBUG}))
+            result.append(item(data, flags - self.non_inherited_flags))
         if len(self.nested) == 1:
             result = result[0]
         return result
@@ -123,15 +122,37 @@ class Schema(object):
         result = {}
 
         for item in self.nested:
-            result.update(item(data, flags - {DEBUG}))
+            result.update(item(data, flags - self.non_inherited_flags))
 
         for name, item in self.named.items():
             if not self.item_test(item):
                 item = self.item_class(item)
-            result[name] = item(data, flags - {DEBUG})
+            result[name] = item(data, flags - self.non_inherited_flags)
 
         return result
 
     @classmethod
     def item_test(cls, item):
         return item and isinstance(item, (cls.item_class, cls))
+
+
+class EtreeItem(Item):
+    allowed_key_types = (str, )
+    null_value = None
+
+    def _extract(self, data, path, flags):
+        multiple = MULTIPLE in flags
+        result = data.xpath(path)
+        if not result:
+            return [] if multiple else None
+        return result if multiple else result[0]
+
+    @classmethod
+    def check_path(cls, path):
+        if isinstance(path, cls.allowed_key_types):
+            return path
+        raise RuntimeError('Bad path: {}'.format(path))
+
+
+class EtreeSchema(Schema):
+    item_class = EtreeItem

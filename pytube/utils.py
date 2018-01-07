@@ -159,3 +159,14 @@ def print_streams(streams, prefix=None, spacing=2):
             format_column(column, getattr(stream, column), width)
             for column, width in columns.items()
         ]))
+
+
+def remove_namespaces(tree):
+    for elem in tree.getiterator():
+        if not hasattr(elem.tag, 'find'):
+            continue
+        i = elem.tag.find('}')
+        if i >= 0:
+            elem.tag = elem.tag[i + 1:]
+    # from lxml.objectify import deannotate
+    # deannotate(tree, cleanup_namespaces=True)

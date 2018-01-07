@@ -21,3 +21,15 @@ def _iter_args(args, test):
             break
         count += 1
     return args[:count], args[count:]
+
+
+def not_empty(value):
+    if value is None:
+        return False
+    if isinstance(value, (list, tuple, dict)):
+        return len(value) > 0
+    return True
+
+
+def is_empty(value):
+    return not not_empty(value)

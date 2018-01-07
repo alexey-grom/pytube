@@ -29,6 +29,7 @@ setup(
         'docopt',
         'aiohttp',
         'aiosocks',
+        'lxml',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
