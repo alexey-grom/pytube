@@ -2,10 +2,10 @@
 from subprocess import call
 
 from pytube.cli.decorators import command
+from pytube.requests import create_get_content
 from pytube.utils import choose_stream
 from pytube.utils import format_filename
 from pytube.utils import safe_filename
-from pytube.requests import create_get_content
 from pytube.youtube.video import video_parser
 
 

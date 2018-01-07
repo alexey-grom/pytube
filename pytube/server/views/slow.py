@@ -4,8 +4,9 @@ import logging
 
 from aiohttp import web
 
-from pytube.server.decorators import json_response, timing
 from .base import PytubeMixin
+from pytube.server.decorators import json_response
+from pytube.server.decorators import timing
 
 
 logger = logging.getLogger(__name__)

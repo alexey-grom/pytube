@@ -1,13 +1,12 @@
-# encoding: utf-8
-
-from json import dumps as _dumps
+# -*- coding: utf-8 -*-
 from functools import partial
+from json import dumps as _dumps
 
 import pytest
 
-from pytube.structure import Schema as x
 from pytube.structure import filters
 from pytube.structure import flags
+from pytube.structure import Schema as x
 
 
 dumps = partial(_dumps, sort_keys=True)
@@ -217,12 +216,16 @@ testcases = [
             id='id',
         ),
         [
-            {'title': 'first',
-             'id': 1,
-             'description': ''},
-            {'title': 'second',
-             'id': 2,
-             'description': 'line 1\nline 2\nline 3'},
+            {
+                'title': 'first',
+                'id': 1,
+                'description': '',
+            },
+            {
+                'title': 'second',
+                'id': 2,
+                'description': 'line 1\nline 2\nline 3',
+            },
         ],
     ],
 

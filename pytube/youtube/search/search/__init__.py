@@ -3,10 +3,10 @@ import logging
 from urllib.parse import quote
 from urllib.parse import urlencode
 
-from pytube.exceptions import DownloadingError
-from pytube import json
-from .meta import *
+from . import meta
 from .schema import get_response_schema
+from pytube import json
+from pytube.exceptions import DownloadingError
 
 
 logger = logging.getLogger(__name__)
@@ -18,12 +18,12 @@ class search(object):
         self.query = query
         self.lang = lang
 
-        sorting = sorting or BY_RELEVANCE
-        type = type or ALL
-        assert sorting in ORDERS
-        assert type in TYPES
+        sorting = sorting or meta.BY_RELEVANCE
+        type = type or meta.ALL
+        assert sorting in meta.ORDERS
+        assert type in meta.TYPES
 
-        self.option = OPTION_VALUES[sorting][type]
+        self.option = meta.OPTION_VALUES[sorting][type]
 
         self.continuations = None
         self.xsrf_token = None

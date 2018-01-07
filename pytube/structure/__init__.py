@@ -1,11 +1,12 @@
-# encoding: utf-8
-
+# -*- coding: utf-8 -*-
 from logging import getLogger
 
-from .utils import split_args
-from .flags import DEBUG, STRICT, SKIP_EMPTY
+from . import filters  # noqa
 from . import native
-from . import filters
+from .flags import DEBUG
+from .flags import SKIP_EMPTY
+from .flags import STRICT
+from .utils import split_args
 
 
 logger = getLogger('structure')

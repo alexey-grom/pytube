@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from pytube.cli.decorators import command
-from pytube.utils import print_streams
 from pytube.requests import create_get_content
+from pytube.utils import print_streams
 from pytube.youtube.video import video_parser
 
 

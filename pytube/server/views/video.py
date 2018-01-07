@@ -3,10 +3,11 @@ import logging
 
 from aiohttp import web
 
-from pytube.requests import create_get_content
-from pytube.youtube.video import video_parser
-from pytube.server.decorators import json_response, timing
 from .base import PytubeMixin
+from pytube.requests import create_get_content
+from pytube.server.decorators import json_response
+from pytube.server.decorators import timing
+from pytube.youtube.video import video_parser
 
 
 logger = logging.getLogger(__name__)

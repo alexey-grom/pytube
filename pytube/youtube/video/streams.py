@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import logging
 
+from pytube.utils import human_size
 from pytube.youtube.video import extract
 from pytube.youtube.video.itags import get_format_profile
-from pytube.utils import human_size
 
 logger = logging.getLogger(__name__)
 

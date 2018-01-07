@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-
-from pytube.structure import Schema as x
+from .filters import extract_canonical_url
 from pytube.structure import filters
 from pytube.structure import flags
-from .filters import *
+from pytube.structure import Schema as x
 
 
 video_schema = x(
@@ -12,8 +11,10 @@ video_schema = x(
     id='videoId',
     thumbnails=('thumbnail', 'thumbnails', ),
     title=('title', 'simpleText', ),
-    description=x(filters.join('\n'),
-                  ('descriptionSnippet', 'runs', 'text',)),
+    description=x(
+        filters.join('\n'),
+        ('descriptionSnippet', 'runs', 'text',),
+    ),
     published=('publishedTimeText', 'simpleText', ),
     length=('lengthText', 'simpleText', ),
     views_count=('viewCountText', 'simpleText', ),
@@ -23,8 +24,9 @@ video_schema = x(
         id=('navigationEndpoint', 'browseEndpoint', 'browseId', ),
     ),
     channel_thumbnails=('channelThumbnail', 'thumbnails', ),
-    richThumbnail=('richThumbnail', 'movingThumbnailRenderer',
-                   'movingThumbnailDetails', 'thumbnails', ),
+    richThumbnail=(
+        'richThumbnail', 'movingThumbnailRenderer',
+        'movingThumbnailDetails', 'thumbnails', ),
 )
 
 channel_schema = x(
@@ -37,12 +39,18 @@ channel_schema = x(
     ),
     title=('title', 'simpleText', ),
     thumbnails=('thumbnail', 'thumbnails', ),
-    description=x(filters.join('\n'),
-                  ('descriptionSnippet', 'runs', 'text',)),
-    videos_count=x(filters.join('\n'),
-                   ('videoCountText', 'runs', 'text',)),
-    subscriber_count=x(filters.join('\n'),
-                       ('subscriberCountText', 'runs', 'text',)),
+    description=x(
+        filters.join('\n'),
+        ('descriptionSnippet', 'runs', 'text',),
+    ),
+    videos_count=x(
+        filters.join('\n'),
+        ('videoCountText', 'runs', 'text',),
+    ),
+    subscriber_count=x(
+        filters.join('\n'),
+        ('subscriberCountText', 'runs', 'text',),
+    ),
 )
 
 playlist_schema = x(
@@ -50,8 +58,10 @@ playlist_schema = x(
     ('playlistRenderer', ),
     id='playlistId',
     title=('title', 'simpleText', ),
-    videos_count=x(filters.type_cast(int),
-                   ('videoCount', )),
+    videos_count=x(
+        filters.type_cast(int),
+        ('videoCount', ),
+    ),
     videos=x(
         ('videos', 'childVideoRenderer', ),
         id='videoId',
@@ -67,8 +77,9 @@ playlist_schema = x(
 )
 
 contents_schema = x(
-    continuations=('continuations', 0, 'nextContinuationData',
-                   'continuation', ),
+    continuations=(
+        'continuations', 0, 'nextContinuationData',
+        'continuation', ),
     items=x(
         filters.drop_empty_items,  #
         ('contents', ),
@@ -83,8 +94,9 @@ contents_schema = x(
 )
 
 first_page = x(
-    ('contents', 'twoColumnSearchResultsRenderer', 'primaryContents',
-     'sectionListRenderer', 'contents', 0, 'itemSectionRenderer', ),
+    (
+        'contents', 'twoColumnSearchResultsRenderer', 'primaryContents',
+        'sectionListRenderer', 'contents', 0, 'itemSectionRenderer', ),
     contents_schema,
 )
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from pytube.cli.decorators import command, redirect_output
+from pytube.cli.decorators import command
+from pytube.cli.decorators import redirect_output
 from pytube.requests import create_get_content
 
 

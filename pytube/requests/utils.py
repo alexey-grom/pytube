@@ -1,9 +1,10 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
 from urllib.parse import urlparse
 
-from aiosocks.connector import ProxyConnector, ProxyClientRequest
-from aiohttp import BasicAuth
 import aiosocks
+from aiohttp import BasicAuth
+from aiosocks.connector import ProxyClientRequest
+from aiosocks.connector import ProxyConnector
 
 
 def create_proxy_auth(proxy, proxy_auth):
@@ -24,8 +25,10 @@ def create_proxy_auth(proxy, proxy_auth):
 def create_connector(proxy=None):
     if not proxy:
         return
-    return dict(connector=ProxyConnector(remote_resolve=True),
-                request_class=ProxyClientRequest)
+    return dict(
+        connector=ProxyConnector(remote_resolve=True),
+        request_class=ProxyClientRequest,
+    )
 
 
 def merge_defaults(dest, src):
