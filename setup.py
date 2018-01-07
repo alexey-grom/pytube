@@ -28,6 +28,7 @@ setup(
     install_requires=[
         'docopt',
         'aiohttp',
+        'aiosocks',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',

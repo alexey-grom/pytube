@@ -23,11 +23,14 @@ Options:
   --cache-password=<password>
 
 Commands:
-  list
-  download
-  dump-player-config
-  dump-streams
-  server
+download
+dump-player-config
+dump-streams
+list
+search
+search-keywords
+server
+try-request 
 ```
 
 
