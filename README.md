@@ -22,11 +22,13 @@ Options:
   --cache-port=<port>
   --cache-database=<database>
   --cache-password=<password>
+  --cache-ttl=<ttl>
 
 Commands:
 download
 dump-player-config
 dump-streams
+feed
 list
 search
 search-keywords
