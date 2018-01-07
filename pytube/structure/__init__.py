@@ -90,9 +90,6 @@ class Schema(object):
     def apply(self, data, flags=()):
         flags = set(flags) | set(self.flags)
 
-        # if DEBUG in flags:
-        #     logger.debug('{} apply: data={}'.format(str(self), {}))
-
         if not data and SKIP_EMPTY in flags:
             return data
 
@@ -125,17 +122,11 @@ class Schema(object):
         result = {}
 
         for item in self.nested:
-            # if DEBUG in flags:
-            #     logger.debug('{} apply nested {}'.
-            #                  format(str(self), str(item)))
             result.update(item(data, flags - {DEBUG}))
 
         for name, item in self.named.items():
             if not self.item_test(item):
                 item = self.item_class(item)
-            # if DEBUG in flags:
-            #     logger.debug('{} apply named {}={}'.
-            #                  format(str(self), name, str(item)))
             result[name] = item(data, flags - {DEBUG})
 
         return result
@@ -143,20 +134,3 @@ class Schema(object):
     @classmethod
     def item_test(cls, item):
         return item and isinstance(item, (cls.item_class, cls))
-
-    # def __str__(self):
-    #     items = [
-    #         (k, list(map(str, v)))
-    #         for k, v in [
-    #             ('flags', self.flags, ),
-    #             ('filters', self.filters, ),
-    #             ('path', self.path, ),
-    #             ('nested', self.nested, ),
-    #         ]
-    #         if v
-    #     ]
-    #     return 'Schema<{}>'.format(', '.join([
-    #         '{}={}'.format(k, str(v))
-    #         for k, v in items
-    #     ]))
-    # __repr__ = __str__

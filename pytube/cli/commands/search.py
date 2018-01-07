@@ -9,14 +9,21 @@ from pytube.youtube.search import search
 async def search_command(arguments, **kwargs):
     """
     Usage:
-      pytube [options] {command} [--limit=<count>] <query>...
+      pytube [options] {command} [--type=<entities type>]
+                                 [--sorting=<sorting alias>]
+                                 [--limit=<pages count>]
+                                 <query>...
     """
-    results = {}
-    limit = int(arguments.pop('--limit', 0))
     query = ' '.join(arguments.get('<query>'))
+    limit = int(arguments.pop('--limit', 0))
+    sorting = arguments.pop('--sorting', None)
+    type = arguments.pop('--type', None)
+
+    results = {}
+
     results[query] = []
     async with create_get_content(**kwargs) as get_content:
-        paginator = search(get_content, query)
+        paginator = search(get_content, query, sorting=sorting, type=type)
         count = 0
         while True:
             data = await paginator.next()

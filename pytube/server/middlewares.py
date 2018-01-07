@@ -4,13 +4,15 @@ from time import time
 from aiohttp import web
 
 
-def context_middleware(**context):
-    data = context.copy()
-    data['started'] = time()
+def context_middleware(**opts):
+    context = {
+        'started': time(),
+        'opts': opts.copy(),
+    }
 
     @web.middleware
     async def middleware(request, handler):
-        request['context'] = data.copy()
+        request['context'] = context.copy()
         return await handler(request)
 
     return middleware
