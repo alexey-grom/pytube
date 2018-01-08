@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from logging import getLogger
-
 from . import filters  # noqa
 from . import native
 from .flags import DEBUG
@@ -9,9 +7,6 @@ from .flags import MULTIPLE
 from .flags import STRICT
 from .utils import is_empty
 from .utils import split_args
-
-
-logger = getLogger('structure')
 
 
 class Item(object):
