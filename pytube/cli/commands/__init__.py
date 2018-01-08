@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from . import channel  # noqa
 from . import download  # noqa
 from . import dump_player_config  # noqa
 from . import dump_streams  # noqa

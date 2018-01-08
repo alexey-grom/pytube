@@ -20,18 +20,15 @@ async def search_command(arguments, **kwargs):
     sorting = arguments.pop('--sorting', None)
     type = arguments.pop('--type', None)
 
-    results = {}
+    results = []
 
-    results[query] = []
     async with create_get_content(**kwargs) as get_content:
         paginator = search(get_content, query, sorting=sorting, type=type)
         count = 0
-        while True:
-            data = await paginator.next()
-            results[query].append(data)
-            if not paginator.has_more:
-                break
+        async for data in paginator:
+            results.append(data)
             count += 1
             if limit and count >= limit:
                 break
+
     return results

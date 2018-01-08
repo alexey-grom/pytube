@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 
-def join(separator):
+def join(separator, strip=True):
     def inner(data, *args):
-        return separator.join(data or [])
+        if strip:
+            data = map(lambda value: value.strip(), data or [])
+        return separator.join(data)
     return inner
 
 
@@ -49,3 +51,14 @@ def drop_empty_items(items, *args):
         for item in items
         if item
     ]
+
+
+def merge_dicts(items, *args):
+    result = {}
+    for item in items:
+        result.update(item)
+    return result
+
+
+def pop_first(items, *args):
+    return items[0] if items else {}

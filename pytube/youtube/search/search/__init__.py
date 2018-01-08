@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
 from urllib.parse import quote
-from urllib.parse import urlencode
 
 from . import meta
 from .schema import get_response_schema
 from pytube import json
+from pytube.youtube.provisioner import youtube_provisioner
 from pytube.exceptions import DownloadingError
 
 
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 class search(object):
     def __init__(self, get_content, query, sorting=None, type=None, lang=None):
-        self.get_content = get_content
+        self.get_content = youtube_provisioner(get_content, lang=lang)
         self.query = query
         self.lang = lang
 
@@ -34,31 +34,28 @@ class search(object):
     def has_more(self):
         return self._has_more or self._has_more is None
 
-    async def next(self):
-        if not self.has_more:
-            return
+    async def __aiter__(self):
+        return self
 
-        headers = {
-            'X-YouTube-Client-Name': '1',
-            'X-YouTube-Client-Version': '2.20171218',
-        }
+    async def __anext__(self):
+        if not self.has_more:
+            raise StopAsyncIteration
 
         params = {
             'search_query': quote(self.query),
-            'hl': self.lang or 'en_US',
-            'pbj': '1',
             'sp': self.option,
+            # 'hl': self.lang or 'en_US',
         }
         if self.xsrf_token:
             params['ctoken'] = self.continuations
 
-        url = 'https://www.youtube.com/results?' + urlencode(params)
+        url = 'https://www.youtube.com/results'
         method = 'GET' if self.continuations is None else 'POST'
 
         logger.info('Download search url {}'.format(url))
 
         status_code, content = \
-            await self.get_content(method=method, url=url, headers=headers)
+            await self.get_content(method=method, url=url, params=params)
 
         if status_code != 200:
             raise DownloadingError(status_code, url, 'search')

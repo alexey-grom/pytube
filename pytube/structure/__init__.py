@@ -9,7 +9,11 @@ from .utils import is_empty
 from .utils import split_args
 
 
-class Item(object):
+class _Node(object):
+    pass
+
+
+class Item(_Node):
     __slots__ = 'path',
 
     null_value = native.NULL
@@ -57,7 +61,7 @@ class Item(object):
         raise RuntimeError('Bad path: {}'.format(path))
 
 
-class Schema(object):
+class Schema(_Node):
     __slots__ = \
         'flags', \
         'filters', \
