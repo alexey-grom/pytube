@@ -63,7 +63,7 @@ testcases = [
             title='./title/text()',
             date='./date/text()',
             about='./about/text()',
-            number=x(filters.type_cast(int), './number/text()'),
+            number=x(filters.int_cast, './number/text()'),
             home_url='./home-url/text()',
         ),
         [
@@ -89,7 +89,7 @@ testcases = [
                     './description/text()',
                 ),
                 detail_number=x(
-                    filters.type_cast(int),
+                    filters.int_cast,
                     './number/text()',
                 ),
             ),

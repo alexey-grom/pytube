@@ -120,7 +120,7 @@ testcases = [
         testdata,
         x(
             ('named', 'items'),
-            id=x(lambda value, *args: str(value), 'id'),
+            id=x(filters.str_cast, 'id'),
         ),
         [{'id': '1'}, {'id': '2'}],
     ],

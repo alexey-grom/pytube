@@ -28,6 +28,7 @@ def type_cast(target, strict=False):
 
 int_cast = type_cast(int)
 float_cast = type_cast(float)
+str_cast = type_cast(str)
 
 
 def drop_null_values(item, *args):
